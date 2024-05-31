@@ -1,0 +1,130 @@
+.DashboardContainer{
+    display: flex;
+}
+.Dashboard{
+    background-color: #EDEDED;
+    width: 83%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.counts{
+    width: 80%;
+height: 20%;
+border-radius: 10px ;
+ display: flex;
+ gap: 16px;
+}
+.counts div{
+    flex-grow: 1;
+   background-color: white;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+
+
+
+    font-family: Poppins;
+font-size: 2.3vw;
+font-weight: 600;
+line-height: 45px;
+text-align: center;
+
+}
+.counts p{
+    width: 80%;
+}
+.counts span{
+    font-family: Poppins;
+font-size:4.5vw;
+font-weight: 600;
+line-height: 90px;
+
+}
+
+
+.Trending{
+    width: 80%;
+    height: 40%;
+}
+.Trending h1{
+    font-family: Poppins;
+    font-size: 2.2vw;
+    font-weight: 600;
+    line-height: 52.5px;
+    color:#474444;
+} 
+.TrendingQuiz {
+    width: 100%;
+    height: 80%;
+    gap: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.TrendingQuiz .YesTrendingQuiz{
+    width: 22%;
+    height: 28%;
+    background-color: rgb(255, 255, 255);
+    border-radius: 5px;
+}
+
+.NoTrendingQuiz{
+    width: 100%;
+    height: 80%;
+   
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Poppins;
+    font-size: 2.2vw;
+    font-weight: 600;
+    line-height: 52.5px;
+    color:#474444;
+
+}
+
+.CreatedOn{
+    font-family: Poppins;
+font-size: .8vw;
+font-weight: 600;
+line-height: 16.5px;
+text-align: left;
+color: #60B84B;
+align-items: flex-start;
+margin: 7%;
+}
+.QuizName{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 20%;
+}
+.QuizName h5{
+    font-family: Poppins;
+    font-size: 1.5vw;
+    font-weight: 600;
+    line-height: 34.5px;
+    color: #474444;
+}
+.QuizName p{
+    font-family: Poppins;
+font-size: .9vw;
+font-weight: 600;
+line-height: 22.5px;
+text-align: left;
+display: flex;
+justify-content: space-evenly;
+align-items: center;
+color: #FF5D01;
+width: 30%;
+}
+.QuizName p img{
+    width: 1vw;
+    height: 1vw;
+}

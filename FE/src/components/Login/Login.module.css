@@ -1,0 +1,68 @@
+.LoginContainer{
+ 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+ 
+    width: 100%;
+    height: 45%;
+ 
+    font-family: Poppins;
+    font-size: 1.3vw;
+    font-weight: 600;
+    line-height: 1.875rem;
+}
+.LoginContainer .Login{
+    width: 100%;
+    display: flex;
+    align-items: center;
+   
+}
+
+
+.LoginAttribute{
+  width: 40%;
+  text-align: right;
+}
+
+
+
+input{
+    width: 27vw;
+    height: 4vh;
+    border: none;
+    border-radius: 10px 10px 0 0;
+    margin-left: 4vw;
+    color: rgb(0, 0, 0);
+    background-color: #F2F2F2;
+    font-size: .9375rem;
+    padding-left: 20px;
+
+}
+input:focus {
+    outline: none;
+    border-color: transparent;  
+  }
+
+.input:focus{
+    outline: red;
+    border-color: red;  
+}
+  
+.Btn{
+    width: 23vw;
+    height: 5vh;
+    background-color: #A9BCFF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+
+    font-family: Poppins;
+    font-size: 1.6vw;
+font-weight: 600;
+line-height: 30px;
+
+
+}

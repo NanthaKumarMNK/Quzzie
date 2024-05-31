@@ -1,0 +1,47 @@
+.Delete{
+    position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  width: 55vw;
+  height: 40vh;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: column;
+  align-items: center;
+  
+}
+.Delete p
+{
+    font-family: Poppins;
+font-size: 2.6vw;
+font-weight: 600;
+line-height: 58.5px;
+color: #474444;
+text-align: center;
+
+}
+.Delete div {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 1vh;
+    align-items: center;
+    width: 80%;
+}
+.Delete div button{
+    width: 30%;
+    height: 43px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+
+    font-family: Poppins;
+font-size: 1.2vw;
+font-weight: 600;
+line-height: 27px;
+
+
+}

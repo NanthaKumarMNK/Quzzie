@@ -1,0 +1,85 @@
+.QuestionAnalysisContainer{
+    display: flex;
+}
+.QuestionAnalysis{
+    width: 83%;
+    height: 100vh;
+    background-color: #EDEDED;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.QuestionName{
+    width: 85%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+.QuestionName h1{
+    font-family: Poppins;
+font-size: 2.6vw;
+font-weight:600;
+line-height: 60px;
+text-align: left;
+color: #5076FF;
+}   
+.QuestionName p{
+    font-family: Poppins;
+font-size: 1.2vw;
+font-weight: 600;
+line-height: 22.5px;
+
+color: #FF5D01;
+
+}
+.Questions{
+    width: 85%;
+    height:80%;
+}
+.QuestionsName{
+    height: 25%;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    width: 85%;
+   border-bottom: 2px solid #D7D7D7;
+}
+
+.Questions div h2{
+    font-family: Poppins;
+font-size: 1.9vw;
+font-weight: 500;
+line-height: 45px;
+height: 20%;
+}
+.QuestionsSelected{
+    display: flex;
+    gap: 1rem;
+    height: 76%;
+   
+}
+.QuestionsSelected p{ 
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(255, 255, 255);
+   
+    padding-top: .5vw;
+
+    font-family: Poppins;
+font-size: .6vw;
+font-weight: 600;
+line-height: 21px;
+text-align: center;
+border-radius: 5px;
+
+
+}
+.QuestionsSelected p span{
+    font-size: 1.5vw;
+
+} 
