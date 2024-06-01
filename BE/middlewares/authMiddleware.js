@@ -9,7 +9,7 @@ const verifyToken = (req, res, next) => {
             return res.status(401).json({ message: "Unauthorized access" });
         }
 
-        const decode = jwt.verify(token, "your-256-bit-secret");
+        const decode = jwt.verify(token, process.env.SECRTE_KEY);
         req.userId = decode.userId;
 
         next();

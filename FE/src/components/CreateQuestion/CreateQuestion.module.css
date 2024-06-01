@@ -67,12 +67,13 @@ font-size: 2vw;
 
 }
 .QuestionOrPollBtn button{
-    width: 279px;
-    height: 46px;
+    width: 18vw;
+    height: 7vh;
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 10px;
+    font-size: 1vw;
 
 }
 button{
@@ -162,23 +163,15 @@ color: #9F9F9F;
 font-size: 1.2vw;
 font-weight: 500;
 line-height: 30px;
-
 color: #9F9F9F;
+background-color: white;
+margin-right: 7%;
+}
+.Poll::placeholder{
+    color: #9F9F9F;
+}
 
-}
-.OptionType{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 90%;
-    background-color: antiquewhite;
-    height: 10%;
-}
-.Inputs{
-    display: flex;
-}
 .OptionTypeInput{
-    background-color: aquamarine;
     display: flex;
     justify-content: left;
     align-items: center;
@@ -206,7 +199,7 @@ label{
     display: flex;
     justify-content: space-around;
     align-items: center;
-    background-color: aquamarine;
+    
 }
 .CreateBtn{
     display: flex;
@@ -233,18 +226,107 @@ line-height: 31.5px;
 }
 
 
-.container {
+.OptionType{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    height: 10%;
+color: #9F9F9F;
+}
+.Inputs{
+    width: 45vw;
+    height: 10vh;
+}
+.Inputs input{
+
+    background-color: white;
+    color: #9F9F9F;
+    cursor: text;
+    z-index: 2;
+    width:12vw;
+    height: 7vh;
+    box-shadow: 0px 0px 25px 0px #00000026;
+    border-radius: 10px;
+    font-family: Poppins;
+font-size: 1.3vw;
+font-weight: 500;
+line-height: 30px;
+
+
+
+}
+
+.Inputs input::placeholder{
+    color: #9F9F9F;
+}
+.Delete{
+    z-index: 1;
+    width: 1.3vw;
+    height: 1.5vw;
+    margin-left: 1vw;
+
+}
+.Timer{
+
+    width: 15%;
+    height:85%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+ 
+    font-family: Poppins;
+font-size: 1.3vw;
+font-weight: 500;
+line-height: 30px;
+color: #9F9F9F;
+
+}
+.Timer p{
+    margin-bottom: -.5vh;
+    margin-top: 6vh;
+}
+.Timer button{
+   width: 6vw;
+   height: 3.2vw;
+   box-shadow: 0px 0px 15px 0px #00000026;
+    margin-top: 1.5vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+}
+.optionInputs{
+
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+   justify-content: space-evenly;
+
   
+}
+
+
+ .container {
+  
+ 
+ 
     position: relative;
-    padding-left: 35px;
-    margin-bottom: 12px;
+    padding-left: 2vw;
+    
     cursor: pointer;
-    font-size: 22px;
+    font-family: Poppins;
+
+font-weight: 500;
+line-height: 30px;
+text-align: left;
+
+    font-size: 1.2vw;
+
    
   }
   
-  /* Hide the browser's default radio button */
-  .container input {
+ .container input {
     position: absolute;
     opacity: 0;
     cursor: pointer;
@@ -253,41 +335,52 @@ line-height: 31.5px;
   /* Create a custom radio button */
   .checkmark {
     position: absolute;
-    top: 0;
+    top: .3vh;
     left: 0;
-    height: 25px;
-    width: 25px;
+    height: 1.3vw;
+    width:  1.3vw;
     background-color: #eee;
     border-radius: 50%;
-    border: 1px solid black;
+    border: 2px solid #7a7a7a;
   }
   
   /* On mouse-over, add a grey background color */
-  
+ 
   
   /* When the radio button is checked, add a blue background */
   .container input:checked ~ .checkmark {
-    background-color: #2196F3;
+    background-color: #eee;
   }
   
   /* Create the indicator (the dot/circle - hidden when not checked) */
-  .checkmark:after {
+   .checkmark:after {
     content: "";
     position: absolute;
     display: none;
   }
   
   /* Show the indicator (dot/circle) when checked */
-  .container input:checked~ .checkmark:after {
+.container input:checked ~ .checkmark:after {
     display: block;
   }
   
   /* Style the indicator (dot/circle) */
-  .container .checkmark:after {
-       top: 9px;
-      left: 9px;
-      width: 8px;
-      height: 8px;
+ .container .checkmark:after {
+       top: 16%;
+      left: 16%;
+      width: .9vw;
+      height: .9vw;
       border-radius: 50%;
-      background: white;
+      background: #353434;
   }
+
+
+  .PollBg{
+    background-color: #60B84B;
+    color: white;
+    box-shadow: 0;
+}
+.timerColor{
+    background-color: #D60000;
+    color: white;
+}

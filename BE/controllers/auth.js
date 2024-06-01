@@ -76,7 +76,7 @@ const loginUser = async (req, res, next) => {
 
         const token = jwt.sign(
             { userId: userDetails._id },
-            "your-256-bit-secret"
+            process.env.SECRTE_KEY
         );
 
      
