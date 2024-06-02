@@ -1,16 +1,16 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Analytics from "../Analytics/Analytics";
 import styles from "./CreateQuestion.module.css";
 import Plus from "../../assets/images/Add.png";
 import Cross from "../../assets/images/Cross.png";
 import Delete from "../../assets/images/Delete.png";
-import { postCreateQuiz,putEditQuiz } from "../../apis/quiz";
-import { useNavigate,useLocation } from "react-router-dom";
+import { postCreateQuiz, putEditQuiz } from "../../apis/quiz";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export default function CreateQuestion() {
   const navigate = useNavigate();
 
-  const {state} = useLocation()
+  const { state } = useLocation();
 
   const [stateId] = useState(state?.id);
 
@@ -30,7 +30,9 @@ export default function CreateQuestion() {
 
   useEffect(() => {
     if (stateData && stateData.quiz[1]) {
-      const { option: { option1 } } = stateData.quiz[1];
+      const {
+        option: { option1 },
+      } = stateData.quiz[1];
       if (option1.text && !option1.image) {
         setOption("text");
       } else if (!option1.text && option1.image) {
@@ -61,13 +63,16 @@ export default function CreateQuestion() {
   };
 
   const [questionNumber, setQuestionNumber] = useState(
-    state ?  stateData:
-{ questionOrPoll: poll !== "Q & A" ? "Poll" : "Q & A",
-    impression: "0",
-    timer: "0",
-    quizName: "",
-    quiz: { 1: poll !== "Q & A" ? pollObject : qAObject },
-  });
+    state
+      ? stateData
+      : {
+          questionOrPoll: poll !== "Q & A" ? "Poll" : "Q & A",
+          impression: "0",
+          timer: "0",
+          quizName: "",
+          quiz: { 1: poll !== "Q & A" ? pollObject : qAObject },
+        }
+  );
 
   const handleTimer = (e) => {
     setQuestionNumber((prev) => ({
@@ -204,7 +209,6 @@ export default function CreateQuestion() {
     setQuestionNumber((prev) => {
       const updatedQuiz = { ...prev.quiz };
 
-
       Object.keys(updatedQuiz).forEach((questionKey) => {
         const currentQuestion = updatedQuiz[questionKey];
         const currentOption = currentQuestion.option;
@@ -215,15 +219,13 @@ export default function CreateQuestion() {
               text: currentOption[optionKey].text || "",
             };
           });
-        }
-        else if (selectedOptionType === "image") {
+        } else if (selectedOptionType === "image") {
           Object.keys(currentOption).forEach((optionKey) => {
             updatedQuiz[questionKey].option[optionKey] = {
               image: currentOption[optionKey].image || "",
             };
           });
-        }
-        else if (selectedOptionType === "both") {
+        } else if (selectedOptionType === "both") {
           Object.keys(currentOption).forEach((optionKey) => {
             updatedQuiz[questionKey].option[optionKey] = {
               text: currentOption[optionKey].text || "",
@@ -233,7 +235,7 @@ export default function CreateQuestion() {
         }
       });
 
-      return {  ...prev,quiz: updatedQuiz };
+      return { ...prev, quiz: updatedQuiz };
     });
   };
 
@@ -268,60 +270,55 @@ export default function CreateQuestion() {
     }));
   };
 
-  const CreateQuestion=async ()=>{
-  const areAllValuesTruthy = (obj) => {
-    if (typeof obj !== 'object' || obj === null) {
-      return Boolean(obj);
-    }
-
-    return Object.entries(obj).every(([key, value]) => {
-      return areAllValuesTruthy(value);
-    });
-  };
-  const present = areAllValuesTruthy(questionNumber);
-if(!present){
-    alert( 'Invalid quizNumber');
-}
-
-const quiz = Object.keys(questionNumber.quiz);
-if (quiz.length < 1 || quiz.length > 5) {
-    alert('Invalid number of questions' );
-}
-
-Object.keys(questionNumber.quiz).forEach(questionKey => {
-    const optionData = questionNumber.quiz[questionKey].option;
-    const optionKeys = Object.keys(optionData);
-
-    if (optionKeys.length < 2 || optionKeys.length > 4) {
-
-        alert('Invalid number of options' );
-    }
-
-    optionKeys.forEach(optionKey => {
-      const option = optionData[optionKey];
-      if (!option.hasOwnProperty("text") && !option.hasOwnProperty("image")) {
-        alert('Invalid option type');
+  const CreateQuestion = async () => {
+    const areAllValuesTruthy = (obj) => {
+      if (typeof obj !== "object" || obj === null) {
+        return Boolean(obj);
       }
-    });
-  });
-  if (state.edit) {
-    const response = await putEditQuiz(stateId, questionNumber);
-    if (response.message) {
-      alert(response.message);
-      navigate('/share', { state: { quizId: stateId } });
-    }
-  
-}else{
-    const response =await postCreateQuiz(questionNumber)
-    if(response.message){
-      alert(response.message)
-      navigate('/share')
-    }
-  }
-    
-  
-}
 
+      return Object.entries(obj).every(([key, value]) => {
+        return areAllValuesTruthy(value);
+      });
+    };
+    const present = areAllValuesTruthy(questionNumber);
+    if (!present) {
+      alert("Invalid quizNumber");
+    }
+
+    const quiz = Object.keys(questionNumber.quiz);
+    if (quiz.length < 1 || quiz.length > 5) {
+      alert("Invalid number of questions");
+    }
+
+    Object.keys(questionNumber.quiz).forEach((questionKey) => {
+      const optionData = questionNumber.quiz[questionKey].option;
+      const optionKeys = Object.keys(optionData);
+
+      if (optionKeys.length < 2 || optionKeys.length > 4) {
+        alert("Invalid number of options");
+      }
+
+      optionKeys.forEach((optionKey) => {
+        const option = optionData[optionKey];
+        if (!option.hasOwnProperty("text") && !option.hasOwnProperty("image")) {
+          alert("Invalid option type");
+        }
+      });
+    });
+    if (state.edit) {
+      const response = await putEditQuiz(stateId, questionNumber);
+      if (response.message) {
+        alert(response.message);
+        navigate("/share", { state: { quizId: stateId } });
+      }
+    } else {
+      const response = await postCreateQuiz(questionNumber);
+      if (response.message) {
+        alert(response.message);
+        navigate("/share");
+      }
+    }
+  };
 
   return (
     <>
@@ -331,7 +328,11 @@ Object.keys(questionNumber.quiz).forEach(questionKey => {
           style={{ display: display ? "flex" : "none" }}
           className={styles.QuestionOrPoll}
         >
-          <input onChange={handleHeading} value={questionNumber.quizName} placeholder="Quiz name" />
+          <input
+            onChange={handleHeading}
+            value={questionNumber.quizName}
+            placeholder="Quiz name"
+          />
 
           <div className={styles.QuizType}>
             <p style={{ boxShadow: "none" }}>Quiz type</p>
@@ -362,15 +363,13 @@ Object.keys(questionNumber.quiz).forEach(questionKey => {
               Cancel
             </button>
             <button
-              onClick={() =>{
-                  if(questionNumber.quizName.length>0){
-
-
-               setDisplay(false)
-               }else{
-                alert('Quiz Name required')
-               }
-               }}
+              onClick={() => {
+                if (questionNumber.quizName.length > 0) {
+                  setDisplay(false);
+                } else {
+                  alert("Quiz Name required");
+                }
+              }}
               style={{
                 color: "white",
                 backgroundColor: "#60B84B",
@@ -429,51 +428,50 @@ Object.keys(questionNumber.quiz).forEach(questionKey => {
               Option Type
             </div>
 
-<label
-  className={styles.container}
-  onClick={() => {
-    handleOption("text");
-    setOption("text");
-  }}
->
-  <input
-    type="radio"
-    name="optionType"
-    checked={option === "text"} 
-    onChange={() => {}}
-  />
-  <span className={styles.checkmark}></span>Text
-</label>
-<label
-  className={styles.container}
-  onClick={() => {
-    handleOption("image");
-    setOption("image");
-  }}
->
-  <input
-    type="radio"
-    name="optionType"
-    checked={option === "image"} 
-  />
-  <span className={styles.checkmark}></span>Image
-</label>
-<label
-  className={styles.container}
-  onClick={() => {
-    handleOption("both");
-    setOption("both");
-  }}
->
-  <input
-    type="radio"
-    name="optionType"
-    checked={option === "both"}
-    onChange={() => {}}
-  />
-  <span className={styles.checkmark}></span>Text & Image
-</label>
-
+            <label
+              className={styles.container}
+              onClick={() => {
+                handleOption("text");
+                setOption("text");
+              }}
+            >
+              <input
+                type="radio"
+                name="optionType"
+                checked={option === "text"}
+                onChange={() => {}}
+              />
+              <span className={styles.checkmark}></span>Text
+            </label>
+            <label
+              className={styles.container}
+              onClick={() => {
+                handleOption("image");
+                setOption("image");
+              }}
+            >
+              <input
+                type="radio"
+                name="optionType"
+                checked={option === "image"}
+              />
+              <span className={styles.checkmark}></span>Image
+            </label>
+            <label
+              className={styles.container}
+              onClick={() => {
+                handleOption("both");
+                setOption("both");
+              }}
+            >
+              <input
+                type="radio"
+                name="optionType"
+                checked={option === "both"}
+                onChange={() => {}}
+              />
+              <span className={styles.checkmark}></span>Text & Image
+            </label>
           </div>
           <div className={styles.Option}>
             <div className={styles.optionInputs}>
@@ -482,24 +480,37 @@ Object.keys(questionNumber.quiz).forEach(questionKey => {
                 Object.entries(questionNumber.quiz[activeQuestion].option).map(
                   ([optionKey, optionValue], index) => (
                     <div className={styles.Inputs} key={index}>
-                     <label className={styles.container}>
-               <input
-                        type="radio"
-                        name={`option${activeQuestion}`}
-                        checked={
-                          questionNumber.quiz[activeQuestion].answer ===
-                          `option${index + 1}`
-                        }
-                        onChange={() => handleInputClick(`option${index + 1}`)}
-                      />
-             
-              <span className={styles.checkmark}></span>
-            </label>
-                     
+                      <label className={styles.container}>
+                        <input
+                          type="radio"
+                          name={`option${activeQuestion}`}
+                          checked={
+                            questionNumber.quiz[activeQuestion].answer ===
+                            `option${index + 1}`
+                          }
+                          onChange={() =>
+                            handleInputClick(`option${index + 1}`)
+                          }
+                        />
+
+                        <span className={styles.checkmark}></span>
+                      </label>
+
                       {(option === "both" || option === "text") && (
-                        <input  style={{zIndex:"1",backgroundColor: questionNumber.quiz[activeQuestion].answer === `option${index + 1}` ? '#60B84B' : '',
-                        color:questionNumber.quiz[activeQuestion].answer === `option${index + 1}` ? 'white' : '#9F9F9F' }}
-                        
+                        <input
+                          style={{
+                            zIndex: "1",
+                            backgroundColor:
+                              questionNumber.quiz[activeQuestion].answer ===
+                              `option${index + 1}`
+                                ? "#60B84B"
+                                : "",
+                            color:
+                              questionNumber.quiz[activeQuestion].answer ===
+                              `option${index + 1}`
+                                ? "white"
+                                : "#9F9F9F",
+                          }}
                           placeholder="Text"
                           value={optionValue.text}
                           onChange={(e) =>
@@ -508,7 +519,20 @@ Object.keys(questionNumber.quiz).forEach(questionKey => {
                         />
                       )}
                       {(option === "both" || option === "image") && (
-                        <input  style={{zIndex:"1",backgroundColor: questionNumber.quiz[activeQuestion].answer === `option${index + 1}` ? '#60B84B' : '',color:questionNumber.quiz[activeQuestion].answer === `option${index + 1}` ? 'white' : '#9F9F9F' }}
+                        <input
+                          style={{
+                            zIndex: "1",
+                            backgroundColor:
+                              questionNumber.quiz[activeQuestion].answer ===
+                              `option${index + 1}`
+                                ? "#60B84B"
+                                : "",
+                            color:
+                              questionNumber.quiz[activeQuestion].answer ===
+                              `option${index + 1}`
+                                ? "white"
+                                : "#9F9F9F",
+                          }}
                           placeholder="Image URL"
                           value={optionValue.image}
                           onChange={(e) =>
@@ -517,7 +541,11 @@ Object.keys(questionNumber.quiz).forEach(questionKey => {
                         />
                       )}
                       {index > 1 && (
-                        <img className={styles.Delete} onClick={() => removeOption(index)} src={Delete} />
+                        <img
+                          className={styles.Delete}
+                          onClick={() => removeOption(index)}
+                          src={Delete}
+                        />
                       )}
                     </div>
                   )
@@ -525,15 +553,32 @@ Object.keys(questionNumber.quiz).forEach(questionKey => {
               {questionNumber?.quiz?.[activeQuestion]?.option?.option4 ? (
                 ""
               ) : (
-                <button className={styles.addBtn} onClick={addOption}>Add option</button>
+                <button className={styles.addBtn} onClick={addOption}>
+                  Add option
+                </button>
               )}
             </div>
             <div className={styles.Timer}>
               <p>Timer</p>
               <div>
-              <button className={questionNumber.timer === '0' && styles.timerColor} onClick={() => handleTimer("0")}>OFF</button>
-              <button className={questionNumber.timer === '5' && styles.timerColor} onClick={() => handleTimer("5")}>5 sec</button>
-              <button className={questionNumber.timer === '10' && styles.timerColor} onClick={() => handleTimer("10")}>10 sec</button>
+                <button
+                  className={questionNumber.timer === "0" && styles.timerColor}
+                  onClick={() => handleTimer("0")}
+                >
+                  OFF
+                </button>
+                <button
+                  className={questionNumber.timer === "5" && styles.timerColor}
+                  onClick={() => handleTimer("5")}
+                >
+                  5 sec
+                </button>
+                <button
+                  className={questionNumber.timer === "10" && styles.timerColor}
+                  onClick={() => handleTimer("10")}
+                >
+                  10 sec
+                </button>
               </div>
             </div>
           </div>
@@ -547,7 +592,10 @@ Object.keys(questionNumber.quiz).forEach(questionKey => {
             >
               Cancel
             </p>
-            <p onClick={CreateQuestion} style={{ backgroundColor: "#60B84B", color: "white" }}>
+            <p
+              onClick={CreateQuestion}
+              style={{ backgroundColor: "#60B84B", color: "white" }}
+            >
               Create Quiz
             </p>
           </div>
@@ -556,4 +604,3 @@ Object.keys(questionNumber.quiz).forEach(questionKey => {
     </>
   );
 }
-

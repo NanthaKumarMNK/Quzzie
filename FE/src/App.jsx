@@ -10,28 +10,29 @@ import QuestionAnalysisPage from "./pages/QuestionAnalysisPage/QuestionAnalysisP
 // import ProtectedRoute from "./components/ProtectedRoutes/ProtectedRoute";
 
 function App() {
-  
-
   return (
     <>
-       <BrowserRouter>
-            <Routes>
-                {/* <Route
+      <BrowserRouter>
+        <Routes>
+          {/* <Route
                     path="/job-post"
                     element={<ProtectedRoute Component={JobPostPage} />}
                 /> */}
-                <Route path="/question_analysis/:quizId" element={<QuestionAnalysisPage/>} />
-                <Route path="/share" element={<SharePage/>} />
-                <Route path="/delete/:quizId" element={<DeletePage/>} />
-                <Route path="/analytics" element={<AnalyticsPage/>} />
-                <Route path="/dashboard" element={<DashboardPage/>} />
-                <Route path="/create_question" element={<CreateQuestionPage/>} />
-                <Route path="/question/:quizId" element={<QuestionPage/>} />
-                <Route path="/" element={<HomePage/>} />
-            </Routes>
-        </BrowserRouter>
+          <Route
+            path="/question_analysis/:quizId"
+            element={<QuestionAnalysisPage />}
+          />
+          <Route path="/share" element={<SharePage />} />
+          <Route path="/delete/:quizId" element={<DeletePage />} />
+          <Route path="/analytics" element={<AnalyticsPage />} />
+          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/create_question" element={<CreateQuestionPage />} />
+          <Route path="/question/:quizId" element={<QuestionPage />} />
+          <Route path="/" element={<HomePage />} />
+        </Routes>
+      </BrowserRouter>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

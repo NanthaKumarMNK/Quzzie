@@ -57,6 +57,17 @@ export const getUserQuizById = async (stateId) => {
     }
 };
 
+export const getLastQuizIdByUser = async (userId) => {
+    try {
+        const reqUrl = `http://localhost:8000/api/v1/quiz/get_last_quiz:${userId}`;
+        const response = await axios.get(reqUrl);
+       return (response.data) ;
+    } catch (error) {
+        console.log(error);
+       
+    }
+};
+
 export const putImpression = async (quizId,selectedOption) => {
     try {
         

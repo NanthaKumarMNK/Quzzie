@@ -10,7 +10,6 @@ import { getUserQuiz } from "../../apis/quiz";
 export default function Analytics() {
   const navigate = useNavigate();
   const [userQuiz, setUserQuiz] = useState();
-  const [token] = useState(localStorage.getItem("token"));
   const [userId] = useState(localStorage.getItem("userId"));
   const fetchUserQuiz = async (userId) => {
     const myResponse = await getUserQuiz(userId);
