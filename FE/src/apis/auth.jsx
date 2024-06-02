@@ -3,7 +3,7 @@ import axios from "axios";
 
 export const registerUser = async ({ email, password, name, cPassword }) => {
   try {
-    const reqUrl = "http://localhost:8000/api/v1/auth/register";
+    const reqUrl = `http://localhost:8000/api/v1/auth/register`;
     const response = await axios.post(reqUrl, {
       email,
       password,

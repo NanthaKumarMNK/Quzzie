@@ -18,9 +18,9 @@ export default function Delete() {
 
   return (
     <>
-      <div>
-        <Analytics />
-      </div>
+      <div className={styles.analyticsContainer}>
+  <Analytics />
+</div>
       <div className={styles.Delete}>
         <p>
           Are you confirm you

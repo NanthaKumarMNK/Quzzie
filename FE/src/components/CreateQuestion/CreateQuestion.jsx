@@ -322,7 +322,10 @@ export default function CreateQuestion() {
 
   return (
     <>
-      <Analytics />
+      <div className={styles.analyticsContainer}>
+  <Analytics />
+</div>
+
       <div>
         <div
           style={{ display: display ? "flex" : "none" }}

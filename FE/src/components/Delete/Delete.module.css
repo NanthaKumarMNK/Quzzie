@@ -12,6 +12,10 @@
   flex-direction: column;
   align-items: center;
 }
+.analyticsContainer {
+  filter: brightness(0.7); 
+  pointer-events: none; 
+}
 .Delete p {
   font-family: Poppins;
   font-size: 2.6vw;

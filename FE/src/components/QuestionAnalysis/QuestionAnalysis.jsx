@@ -8,7 +8,7 @@ export default function QuestionAnalysis() {
   const { quizId } = useParams();
 
   const [quizImpression, setQuizImpression] = useState();
-  console.log(quizImpression);
+
   const fetchQuiz = async () => {
     if (!quizId) return;
     const response = await getImpression(quizId);

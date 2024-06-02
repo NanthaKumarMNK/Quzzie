@@ -1,6 +1,7 @@
 .QuestionAnalysisContainer {
   display: flex;
 }
+
 .QuestionAnalysis {
   width: 83%;
   height: 100vh;

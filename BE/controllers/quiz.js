@@ -8,9 +8,6 @@ const postCreateQuiz=async(req,res,next)=>{
        
         const userId = req.userId;
         
-
-        
-
         const areAllValuesTruthy = (obj) => {
             if (typeof obj !== 'object' || obj === null) {
               return Boolean(obj);

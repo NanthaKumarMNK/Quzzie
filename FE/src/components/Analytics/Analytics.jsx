@@ -40,6 +40,12 @@ export default function Analytics() {
     }
   };
 
+  const copyText = (quizId) => {
+    const textToCopy = `http://localhost:5173/question/${quizId}`;
+    navigator.clipboard.writeText(textToCopy);
+    alert('Link copied');
+  };
+
   return (
     <>
       <div className={styles.AnalyticsContainer}>
@@ -100,7 +106,7 @@ export default function Analytics() {
                           src={Delete}
                           alt="Delete"
                         />
-                        <img src={Share} alt="Share" />
+                        <img onClick={()=>copyText(quiz.id)} src={Share} alt="Share" />
                       </td>
                       <td
                         onClick={() =>
