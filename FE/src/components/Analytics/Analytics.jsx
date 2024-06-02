@@ -20,6 +20,27 @@ export default function Analytics() {
     fetchUserQuiz(userId);
   }, []);
 
+  const handleEdit = (quizId) => {
+    if (quizId) {
+      const targetId = quizId;
+      const targetObject = userQuiz.find((obj) => obj.id === targetId);
+
+      navigate("/create_question", {
+        state: {
+          id: targetObject._id,
+          quizDetails: {
+            questionOrPoll: targetObject.quizName,
+            quizName: targetObject.quizName,
+            timer: targetObject.timer,
+            quiz: targetObject.quiz,
+            impressions: targetObject.impressions,
+          },
+          edit: true,
+        },
+      });
+    }
+  };
+
   return (
     <>
       <div className={styles.AnalyticsContainer}>
@@ -71,9 +92,7 @@ export default function Analytics() {
                       <td>{quiz.impressions}</td>
                       <td>
                         <img
-                          onClick={() =>
-                            navigate(`/create_question/${quiz.id}`)
-                          }
+                          onClick={() => handleEdit(quiz.id)}
                           src={Edit}
                           alt="Edit"
                         />

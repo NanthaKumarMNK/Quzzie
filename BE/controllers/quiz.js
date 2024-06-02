@@ -118,15 +118,13 @@ const postCreateQuiz=async(req,res,next)=>{
           });
 
         
-        // Find the quiz by ID and update it
         const updatedQuiz = await Quiz.findByIdAndUpdate(quizId, questionNumber, { new: true });
 
-        // Check if the quiz exists
         if (!updatedQuiz) {
             return res.status(404).json({ message: 'Quiz not found' });
         }
 
-        res.json({ message: 'Quiz updated successfully', quiz: updatedQuiz });
+        res.json({ message: 'Quiz updated successfully'});
     } catch (error) {
         console.error('Error updating quiz:', error);
         next(error);
@@ -134,52 +132,6 @@ const postCreateQuiz=async(req,res,next)=>{
     }
 }
 
-
-// const putImpression = async (req, res, next) => {
-//   try {
-//     let quizId = req.params.quizId;
-//     quizId = quizId.replace(':', '');
-
-//     const quizNumber = req.body;
-
-//     const quizDetails = await Quiz.findById(quizId);
-//     if (!quizDetails) {
-//       return res.status(404).json({ message: 'Quiz not found' });
-//     }
-
-//     quizDetails.impressions = String(parseInt(quizDetails.impressions || 0) + 1);
-
-//     let count = 0;
-//     Object.entries(quizNumber).forEach(([questionKey, selectedOption]) => {
-//       if (quizDetails.quiz[questionKey]) {
-//         // Increment count if the selected option is present in the quiz details
-//         if (quizDetails.quiz[questionKey].answer === selectedOption) {
-//           count++;
-//         }
-
-//         // Increment impressions count for the selected option
-//         if (quizDetails.quiz[questionKey].selectedOptions[selectedOption] !== undefined) {
-//           quizDetails.quiz[questionKey].selectedOptions[selectedOption] = String(parseInt(quizDetails.quiz[questionKey].selectedOptions[selectedOption]) + 1);
-//         } else {
-//           return res.json({ message: 'Selected option does not exist for question' });
-//         }
-//       } else {
-//         return res.json({ message: 'Question key not found' });
-//       }
-//     });
-
-//     const updatedQuizDetails = await Quiz.findOneAndUpdate(
-//       { _id: quizId },
-//       quizDetails,
-//       { new: true }
-//     );
-
-//     return res.json({ message : count });
-//   } catch (error) {
-//     console.error('Error updating impressions and selectedOptions:', error);
-//     next(error);
-//   }
-// };
 
 const putImpression = async (req, res, next) => {
   try {
@@ -201,16 +153,13 @@ const putImpression = async (req, res, next) => {
     Object.entries(quizNumber).forEach(([questionKey, selectedOption]) => {
       if (quizDetails.quiz[questionKey]) {
         if (!quizDetails.quiz[questionKey].answer) {
-          // If there's no answer for a question, it's a Poll
           isQuestionAndAnswer = false;
         } else {
-          // Increment count if the selected option is present in the quiz details
           if (quizDetails.quiz[questionKey].answer === selectedOption) {
             count++;
           }
         }
 
-        // Increment impressions count for the selected option
         if (quizDetails.quiz[questionKey].selectedOptions[selectedOption] !== undefined) {
           quizDetails.quiz[questionKey].selectedOptions[selectedOption] = String(parseInt(quizDetails.quiz[questionKey].selectedOptions[selectedOption]) + 1);
         } else {
@@ -239,7 +188,7 @@ const putImpression = async (req, res, next) => {
 };
 
 
-const deleteQuiz=async (req, res) => {
+const deleteQuiz=async (req, res,next) => {
     try {
       let quizId = req.params.quizId;
       quizId = quizId.replace(':', '');
@@ -253,8 +202,7 @@ const deleteQuiz=async (req, res) => {
   
       return res.json({ message: 'Quiz deleted successfully' });
     } catch (error) {
-      console.error('Error deleting quiz:', error);
-      return res.status(500).json({ message: 'Internal server error' });
+      next(error);
     }
   }
 
@@ -273,10 +221,8 @@ const getQuiz = async (req, res, next) => {
       return res.status(404).json({ message: 'Quiz not found' });
     }
 
-    // Set timer to '0' if not present
     const timer = quizDetails.timer || '0';
 
-    // Remove answer key from each question in the quiz
     const quiz = Object.keys(quizDetails.quiz).reduce((acc, key) => {
       acc[key] = {
         question: quizDetails.quiz[key].question,
@@ -287,8 +233,7 @@ const getQuiz = async (req, res, next) => {
 
     res.json({ quiz, timer });
   } catch (error) {
-    console.error('Error fetching quiz:', error);
-    return res.status(500).json({ message: 'Internal server error' });
+    next(error);
   }
 };
 
@@ -305,7 +250,7 @@ const getUserQuiz = async (req, res, next) => {
         });
     }
 
-      const quizDetails = await Quiz.find({ userId }, {impressions: 1, quizName: 1, createdOn: 1 });
+      const quizDetails = await Quiz.find({ userId });
     res.json({ data: quizDetails });
 } catch (error) {
     next(error);
@@ -347,16 +292,15 @@ const getTrendingQuiz = async (req, res, next) => {
           }});
 
   } catch (error) {
-      console.error('Error:', error);
-      res.status(500).json({ error: 'Internal Server Error' });
+    next(error);
   }
 };
 
 
 
-const getImpression = async (req, res) => {
+const getImpression = async (req, res, next) => {
   try {
-    let quizId = req.params.quizId.replace(':', ''); // Remove colon from quizId
+    let quizId = req.params.quizId.replace(':', ''); 
     const quiz = await Quiz.findById(quizId);
 
     if (!quiz) {
@@ -364,11 +308,11 @@ const getImpression = async (req, res) => {
     }
 
     const { questionOrPoll, impressions, quiz: quizData,quizName,createdOn } = quiz;
-    let analysis = {}; // Initialize analysis object
+    let analysis = {}; 
 
     for (const key in quizData) {
       const { question, answer, selectedOptions } = quizData[key];
-      // Initialize impression with total impressions
+  
 
       if (questionOrPoll === 'Poll') {
         analysis[key] = { question,selectedOptions };
@@ -389,12 +333,28 @@ const getImpression = async (req, res) => {
 
     res.json(response);
   } catch (error) {
-    console.error('Error:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    next(error);
+  }
+};
+
+
+const getLastQuizIdByUser = async (req,res, next) => {
+  try {
+    let userId = req.params.userId.replace(':', '');
+    const latestQuiz = await Quiz.findOne({ userId }).sort({ createdAt: -1 });
+
+    if (!latestQuiz) {
+      return null;
+    }
+
+    res.json({id : latestQuiz._id})
+  } catch (error) {
+    next(error);
   }
 };
 
    
-module.exports = {postCreateQuiz,putEditQuiz,putImpression,deleteQuiz,getQuiz,getUserQuiz,getTrendingQuiz,getImpression};
+module.exports = {postCreateQuiz,putEditQuiz,putImpression,deleteQuiz,getQuiz,getUserQuiz,getTrendingQuiz,
+  getImpression,getLastQuizIdByUser};
 
 

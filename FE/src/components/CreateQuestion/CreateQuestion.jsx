@@ -1,14 +1,20 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import Analytics from "../Analytics/Analytics";
 import styles from "./CreateQuestion.module.css";
 import Plus from "../../assets/images/Add.png";
 import Cross from "../../assets/images/Cross.png";
 import Delete from "../../assets/images/Delete.png";
-import { postCreateQuiz } from "../../apis/quiz";
-import { useNavigate } from "react-router-dom";
+import { postCreateQuiz,putEditQuiz } from "../../apis/quiz";
+import { useNavigate,useLocation } from "react-router-dom";
 
 export default function CreateQuestion() {
   const navigate = useNavigate();
+
+  const {state} = useLocation()
+
+  const [stateId] = useState(state?.id);
+
+  const [stateData] = useState(state?.quizDetails);
 
   const [option, setOption] = useState("text");
 
@@ -21,6 +27,19 @@ export default function CreateQuestion() {
   const [activeQuestion, setActiveQuestion] = useState("1");
 
   const [display, setDisplay] = useState(true);
+
+  useEffect(() => {
+    if (stateData && stateData.quiz[1]) {
+      const { option: { option1 } } = stateData.quiz[1];
+      if (option1.text && !option1.image) {
+        setOption("text");
+      } else if (!option1.text && option1.image) {
+        setOption("image");
+      } else if (option1.text && option1.image) {
+        setOption("both");
+      }
+    }
+  }, [stateData]);
 
   const text = { text: "" };
   const image = { image: "" };
@@ -41,8 +60,9 @@ export default function CreateQuestion() {
     selectedOptions: { option1: "0", option2: "0" },
   };
 
-  const [questionNumber, setQuestionNumber] = useState({
-    questionOrPoll: poll !== "Q & A" ? "Poll" : "Q & A",
+  const [questionNumber, setQuestionNumber] = useState(
+    state ?  stateData:
+{ questionOrPoll: poll !== "Q & A" ? "Poll" : "Q & A",
     impression: "0",
     timer: "0",
     quizName: "",
@@ -213,7 +233,7 @@ export default function CreateQuestion() {
         }
       });
 
-      return { quiz: updatedQuiz };
+      return {  ...prev,quiz: updatedQuiz };
     });
   };
 
@@ -242,11 +262,66 @@ export default function CreateQuestion() {
         ...prev.quiz,
         [activeQuestion]: {
           ...prev.quiz[activeQuestion],
-          [name]: value,
+          question: value,
         },
       },
     }));
   };
+
+  const CreateQuestion=async ()=>{
+  const areAllValuesTruthy = (obj) => {
+    if (typeof obj !== 'object' || obj === null) {
+      return Boolean(obj);
+    }
+
+    return Object.entries(obj).every(([key, value]) => {
+      return areAllValuesTruthy(value);
+    });
+  };
+  const present = areAllValuesTruthy(questionNumber);
+if(!present){
+    alert( 'Invalid quizNumber');
+}
+
+const quiz = Object.keys(questionNumber.quiz);
+if (quiz.length < 1 || quiz.length > 5) {
+    alert('Invalid number of questions' );
+}
+
+Object.keys(questionNumber.quiz).forEach(questionKey => {
+    const optionData = questionNumber.quiz[questionKey].option;
+    const optionKeys = Object.keys(optionData);
+
+    if (optionKeys.length < 2 || optionKeys.length > 4) {
+
+        alert('Invalid number of options' );
+    }
+
+    optionKeys.forEach(optionKey => {
+      const option = optionData[optionKey];
+      if (!option.hasOwnProperty("text") && !option.hasOwnProperty("image")) {
+        alert('Invalid option type');
+      }
+    });
+  });
+  if (state.edit) {
+    const response = await putEditQuiz(stateId, questionNumber);
+    if (response.message) {
+      alert(response.message);
+      navigate('/share', { state: { quizId: stateId } });
+    }
+  
+}else{
+    const response =await postCreateQuiz(questionNumber)
+    if(response.message){
+      alert(response.message)
+      navigate('/share')
+    }
+  }
+    
+  
+}
+
 
   return (
     <>
@@ -256,7 +331,7 @@ export default function CreateQuestion() {
           style={{ display: display ? "flex" : "none" }}
           className={styles.QuestionOrPoll}
         >
-          <input onChange={handleHeading} placeholder="Quiz name" />
+          <input onChange={handleHeading} value={questionNumber.quizName} placeholder="Quiz name" />
 
           <div className={styles.QuizType}>
             <p style={{ boxShadow: "none" }}>Quiz type</p>
@@ -287,7 +362,15 @@ export default function CreateQuestion() {
               Cancel
             </button>
             <button
-              onClick={() => setDisplay(false)}
+              onClick={() =>{
+                  if(questionNumber.quizName.length>0){
+
+
+               setDisplay(false)
+               }else{
+                alert('Quiz Name required')
+               }
+               }}
               style={{
                 color: "white",
                 backgroundColor: "#60B84B",
@@ -306,7 +389,7 @@ export default function CreateQuestion() {
         >
           <div className={styles.AddQuestion}>
             <div className={styles.QuestionNumber_Add}>
-              {Object.keys(questionNumber.quiz).map((key, index) => (
+              {Object.keys(questionNumber?.quiz).map((key, index) => (
                 <div
                   key={key}
                   style={{ display: "flex", alignItems: "center" }}
@@ -339,45 +422,58 @@ export default function CreateQuestion() {
             onChange={handlePollInput}
             className={styles.Poll}
             placeholder="Poll Question"
+            value={questionNumber.quiz[activeQuestion].question}
           />
           <div className={styles.OptionType}>
             <div style={{ color: "#9F9F9F", fontSize: "1.2vw" }}>
               Option Type
             </div>
 
-            <label
-              className={styles.container}
-              onClick={() => {
-                handleOption("text");
-                setOption("text");
-              }}
-            >
-              
-              <input type="radio" name="radio" />
-              <span className={styles.checkmark}></span>Text
-            </label>
-            <label
-              className={styles.container}
-              onClick={() => {
-                handleOption("image");
-                setOption("image");
-              }}
-            >
-              
-              <input type="radio" name="radio" />
-              <span className={styles.checkmark}></span>Image
-            </label>
-            <label
-              className={styles.container}
-              onClick={() => {
-                handleOption("both");
-                setOption("both");
-              }}
-            >
-              
-              <input type="radio" name="radio" />
-              <span className={styles.checkmark}></span>Text & Image
-            </label>
+<label
+  className={styles.container}
+  onClick={() => {
+    handleOption("text");
+    setOption("text");
+  }}
+>
+  <input
+    type="radio"
+    name="optionType"
+    checked={option === "text"} 
+    onChange={() => {}}
+  />
+  <span className={styles.checkmark}></span>Text
+</label>
+<label
+  className={styles.container}
+  onClick={() => {
+    handleOption("image");
+    setOption("image");
+  }}
+>
+  <input
+    type="radio"
+    name="optionType"
+    checked={option === "image"} 
+  />
+  <span className={styles.checkmark}></span>Image
+</label>
+<label
+  className={styles.container}
+  onClick={() => {
+    handleOption("both");
+    setOption("both");
+  }}
+>
+  <input
+    type="radio"
+    name="optionType"
+    checked={option === "both"}
+    onChange={() => {}}
+  />
+  <span className={styles.checkmark}></span>Text & Image
+</label>
+
           </div>
           <div className={styles.Option}>
             <div className={styles.optionInputs}>
@@ -401,7 +497,8 @@ export default function CreateQuestion() {
             </label>
                      
                       {(option === "both" || option === "text") && (
-                        <input style={{zIndex:"1",backgroundColor: questionNumber.quiz[activeQuestion].answer === `option${index + 1}` ? '#F0F8FF' : ''}}
+                        <input  style={{zIndex:"1",backgroundColor: questionNumber.quiz[activeQuestion].answer === `option${index + 1}` ? '#60B84B' : '',
+                        color:questionNumber.quiz[activeQuestion].answer === `option${index + 1}` ? 'white' : '#9F9F9F' }}
                         
                           placeholder="Text"
                           value={optionValue.text}
@@ -411,7 +508,7 @@ export default function CreateQuestion() {
                         />
                       )}
                       {(option === "both" || option === "image") && (
-                        <input  style={{zIndex:"1",backgroundColor: questionNumber.quiz[activeQuestion].answer === `option${index + 1}` ? '#F0F8FF' : ''}}
+                        <input  style={{zIndex:"1",backgroundColor: questionNumber.quiz[activeQuestion].answer === `option${index + 1}` ? '#60B84B' : '',color:questionNumber.quiz[activeQuestion].answer === `option${index + 1}` ? 'white' : '#9F9F9F' }}
                           placeholder="Image URL"
                           value={optionValue.image}
                           onChange={(e) =>
@@ -425,10 +522,10 @@ export default function CreateQuestion() {
                     </div>
                   )
                 )}
-              {questionNumber.quiz[activeQuestion]?.option?.option4 ? (
+              {questionNumber?.quiz?.[activeQuestion]?.option?.option4 ? (
                 ""
               ) : (
-                <button onClick={addOption}>Add option</button>
+                <button className={styles.addBtn} onClick={addOption}>Add option</button>
               )}
             </div>
             <div className={styles.Timer}>
@@ -450,7 +547,7 @@ export default function CreateQuestion() {
             >
               Cancel
             </p>
-            <p style={{ backgroundColor: "#60B84B", color: "white" }}>
+            <p onClick={CreateQuestion} style={{ backgroundColor: "#60B84B", color: "white" }}>
               Create Quiz
             </p>
           </div>
@@ -460,48 +557,3 @@ export default function CreateQuestion() {
   );
 }
 
-// const CreateQuestion=(...quizNumber)=>{
-//   const areAllValuesTruthy = (obj) => {
-//     if (typeof obj !== 'object' || obj === null) {
-//       return Boolean(obj);
-//     }
-
-//     return Object.entries(obj).every(([key, value]) => {
-//       return areAllValuesTruthy(value);
-//     });
-//   };
-//   const present = areAllValuesTruthy(questionNumber);
-// if(!present){
-//     alert( 'Invalid quizNumber');
-// }
-
-// const quiz = Object.keys(questionNumber.quiz);
-// if (quiz.length < 1 || quiz.length > 5) {
-//     alert('Invalid number of questions' );
-// }
-
-// Object.keys(questionNumber.quiz).forEach(questionKey => {
-//     const optionData = questionNumber.quiz[questionKey].option;
-//     const optionKeys = Object.keys(optionData);
-
-//     if (optionKeys.length < 2 || optionKeys.length > 4) {
-
-//         alert('Invalid number of options' );
-//     }
-
-//     optionKeys.forEach(optionKey => {
-//       const option = optionData[optionKey];
-//       if (!option.hasOwnProperty("text") && !option.hasOwnProperty("image")) {
-//         alert('Invalid option type');
-//       }
-//     });
-//   });
-
-//   const postQuestion=async()=>{
-//     const response =await postCreateQuiz(...questionNumber)
-//     if(response){
-//       alert('quiz created successfully')
-//       navigate('/analytics')
-//     }
-//   }
-// }

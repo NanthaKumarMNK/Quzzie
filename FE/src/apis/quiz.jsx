@@ -46,6 +46,17 @@ export const getQuiz = async (quizId) => {
     }
 };
 
+export const getUserQuizById = async (stateId) => {
+    try {
+        const reqUrl = `http://localhost:8000/api/v1/quiz/get_quiz_byID:${stateId}`;
+        const response = await axios.get(reqUrl);
+       return (response.data.data) ;
+    } catch (error) {
+        console.log(error);
+       
+    }
+};
+
 export const putImpression = async (quizId,selectedOption) => {
     try {
         
@@ -74,13 +85,27 @@ export const deleteQuiz = async (quizId) => {
     }
 };
 
-export const postCreateQuiz = async () => {
+export const postCreateQuiz = async (questionNumber) => {
     try {
         const reqUrl = `http://localhost:8000/api/v1/quiz/create_quiz`;
         const token = localStorage.getItem("token");
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-        const response = await axios.post(reqUrl);
-        return response;
+        const response = await axios.post(reqUrl,questionNumber);
+        
+        return response.data;
+    } catch (error) {
+        console.log(error);
+       
+    }
+};
+
+export const putEditQuiz = async (quizId,questionNumber) => {
+    try {
+        const reqUrl = `http://localhost:8000/api/v1/quiz/edit_quiz:${quizId}`;
+        const token = localStorage.getItem("token");
+        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+        const response = await axios.put(reqUrl,questionNumber); 
+        return response.data;
     } catch (error) {
         console.log(error);
        
