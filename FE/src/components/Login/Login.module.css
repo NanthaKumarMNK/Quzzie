@@ -22,7 +22,9 @@
   width: 40%;
   text-align: right;
 }
-
+.margin {
+  margin: -10vh 0 10vh 0;
+}
 input {
   width: 27vw;
   height: 4vh;
@@ -33,6 +35,11 @@ input {
   background-color: #f2f2f2;
   font-size: 0.9375rem;
   padding-left: 20px;
+  font-family: Poppins;
+  font-size: 1.2vw;
+  font-weight: 600;
+  line-height: 30px;
+  color: #474444;
 }
 input:focus {
   outline: none;
@@ -45,16 +52,22 @@ input:focus {
 }
 
 .Btn {
-  width: 23vw;
-  height: 5vh;
+  width: 18vw;
+  height: 6vh;
   background-color: #a9bcff;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 8px;
-
+  margin-top: 3vh;
   font-family: Poppins;
-  font-size: 1.6vw;
+  font-size: 1.2vw;
   font-weight: 600;
   line-height: 30px;
+}
+.red {
+  border: 1px solid red;
+}
+.red::placeholder {
+  color: red;
 }

@@ -37,8 +37,8 @@ table {
 }
 thead {
   position: sticky;
-  top: 0; 
-  z-index: 1; 
+  top: 0;
+  z-index: 1;
 
   background-color: #5076ff;
   color: white;

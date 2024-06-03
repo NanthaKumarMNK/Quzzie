@@ -67,7 +67,6 @@
   gap: 3vw;
 }
 .Options div {
-  margin: auto;
   width: 80%;
   height: 80%;
   background-color: #f0f0f0;
@@ -84,6 +83,7 @@
 }
 .Options div div {
   flex-grow: 1;
+  height: 100%;
 }
 .Question button {
   width: 32%;
@@ -149,7 +149,6 @@
     width: 100%;
     height: 22%;
     font-size: 4.5vw;
-    padding: 0;
   }
   .Question button {
     width: 35vw;

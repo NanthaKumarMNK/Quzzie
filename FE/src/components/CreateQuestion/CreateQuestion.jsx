@@ -6,6 +6,8 @@ import Cross from "../../assets/images/Cross.png";
 import Delete from "../../assets/images/Delete.png";
 import { postCreateQuiz, putEditQuiz } from "../../apis/quiz";
 import { useNavigate, useLocation } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function CreateQuestion() {
   const navigate = useNavigate();
@@ -27,6 +29,15 @@ export default function CreateQuestion() {
   const [activeQuestion, setActiveQuestion] = useState("1");
 
   const [display, setDisplay] = useState(true);
+
+  // if (state){
+  //   setDisplay(false)
+  // }
+  useEffect(() => {
+    if (state) {
+      setDisplay(false);
+    }
+  }, [state]);
 
   useEffect(() => {
     if (stateData && stateData.quiz[1]) {
@@ -282,12 +293,14 @@ export default function CreateQuestion() {
     };
     const present = areAllValuesTruthy(questionNumber);
     if (!present) {
-      alert("Invalid quizNumber");
+      toast.error("Invalid quizNumber");
+      return;
     }
 
     const quiz = Object.keys(questionNumber.quiz);
     if (quiz.length < 1 || quiz.length > 5) {
-      alert("Invalid number of questions");
+      toast.error("Invalid number of questions");
+      return;
     }
 
     Object.keys(questionNumber.quiz).forEach((questionKey) => {
@@ -295,26 +308,28 @@ export default function CreateQuestion() {
       const optionKeys = Object.keys(optionData);
 
       if (optionKeys.length < 2 || optionKeys.length > 4) {
-        alert("Invalid number of options");
+        toast.error("Invalid number of options");
+        return;
       }
 
       optionKeys.forEach((optionKey) => {
         const option = optionData[optionKey];
         if (!option.hasOwnProperty("text") && !option.hasOwnProperty("image")) {
-          alert("Invalid option type");
+          toast.error("Invalid option type");
+          return;
         }
       });
     });
     if (state.edit) {
       const response = await putEditQuiz(stateId, questionNumber);
       if (response.message) {
-        alert(response.message);
+        await toast.success(response.message);
         navigate("/share", { state: { quizId: stateId } });
       }
     } else {
       const response = await postCreateQuiz(questionNumber);
       if (response.message) {
-        alert(response.message);
+        await toast.success(response.message);
         navigate("/share");
       }
     }
@@ -323,8 +338,8 @@ export default function CreateQuestion() {
   return (
     <>
       <div className={styles.analyticsContainer}>
-  <Analytics />
-</div>
+        <Analytics />
+      </div>
 
       <div>
         <div
@@ -370,13 +385,12 @@ export default function CreateQuestion() {
                 if (questionNumber.quizName.length > 0) {
                   setDisplay(false);
                 } else {
-                  alert("Quiz Name required");
+                  toast.error("Quiz Name required");
                 }
               }}
               style={{
                 color: "white",
                 backgroundColor: "#60B84B",
-                fontSize: "1.7vw",
                 fontSize: "1.8vw",
               }}
             >
@@ -603,6 +617,7 @@ export default function CreateQuestion() {
             </p>
           </div>
         </div>
+        <ToastContainer position="top-right" autoClose={3000} />
       </div>
     </>
   );

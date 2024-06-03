@@ -1,9 +1,9 @@
 import axios from "axios";
-// const backendUrl = process.env.REACT_APP_BACKEND_URL;
+const backendUrl = "http://localhost:8000/api/v1" ;
 
 export const getTrendingQuiz = async () => {
     try {
-        const reqUrl = `http://localhost:8000/api/v1/quiz/trending_quiz`;
+        const reqUrl = `${backendUrl}/quiz/trending_quiz`;
     
         const response = await axios.get(reqUrl);
         return response.data.Trending;
@@ -15,7 +15,7 @@ export const getTrendingQuiz = async () => {
 
 export const getUserQuiz = async (quizId) => {
     try {
-        const reqUrl = `http://localhost:8000/api/v1/quiz/user_quiz:${quizId}`;
+        const reqUrl = `${backendUrl}/quiz/user_quiz:${quizId}`;
         const response = await axios.get(reqUrl);
         return(response.data.data) ;
     } catch (error) {
@@ -26,7 +26,7 @@ export const getUserQuiz = async (quizId) => {
 
 export const getImpression = async (quizId) => {
     try {
-        const reqUrl = `http://localhost:8000/api/v1/quiz/get_impression:${quizId}`;
+        const reqUrl = `${backendUrl}/quiz/get_impression:${quizId}`;
         const response = await axios.get(reqUrl);
         return(response.data) ;
     } catch (error) {
@@ -37,7 +37,7 @@ export const getImpression = async (quizId) => {
 
 export const getQuiz = async (quizId) => {
     try {
-        const reqUrl = `http://localhost:8000/api/v1/quiz/quiz:${quizId}`;
+        const reqUrl = `${backendUrl}/quiz/quiz:${quizId}`;
         const response = await axios.get(reqUrl);
        return (response.data) ;
     } catch (error) {
@@ -48,7 +48,7 @@ export const getQuiz = async (quizId) => {
 
 export const getUserQuizById = async (stateId) => {
     try {
-        const reqUrl = `http://localhost:8000/api/v1/quiz/get_quiz_byID:${stateId}`;
+        const reqUrl = `${backendUrl}/quiz/get_quiz_byID:${stateId}`;
         const response = await axios.get(reqUrl);
        return (response.data.data) ;
     } catch (error) {
@@ -59,7 +59,7 @@ export const getUserQuizById = async (stateId) => {
 
 export const getLastQuizIdByUser = async (userId) => {
     try {
-        const reqUrl = `http://localhost:8000/api/v1/quiz/get_last_quiz:${userId}`;
+        const reqUrl = `${backendUrl}/quiz/get_last_quiz:${userId}`;
         const response = await axios.get(reqUrl);
        return (response.data) ;
     } catch (error) {
@@ -71,7 +71,7 @@ export const getLastQuizIdByUser = async (userId) => {
 export const putImpression = async (quizId,selectedOption) => {
     try {
         
-        const reqUrl = `http://localhost:8000/api/v1/quiz/post_impression:${quizId}`;
+        const reqUrl = `${backendUrl}/quiz/post_impression:${quizId}`;
         const token = localStorage.getItem("token");
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
         const response = await axios.put(reqUrl,selectedOption);
@@ -85,7 +85,7 @@ export const putImpression = async (quizId,selectedOption) => {
 
 export const deleteQuiz = async (quizId) => {
     try {
-        const reqUrl = `http://localhost:8000/api/v1/quiz/delete_quiz:${quizId}`;
+        const reqUrl = `${backendUrl}/quiz/delete_quiz:${quizId}`;
         const token = localStorage.getItem("token");
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
         const response = await axios.delete(reqUrl);
@@ -98,7 +98,7 @@ export const deleteQuiz = async (quizId) => {
 
 export const postCreateQuiz = async (questionNumber) => {
     try {
-        const reqUrl = `http://localhost:8000/api/v1/quiz/create_quiz`;
+        const reqUrl = `${backendUrl}/quiz/create_quiz`;
         const token = localStorage.getItem("token");
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
         const response = await axios.post(reqUrl,questionNumber);
@@ -112,7 +112,7 @@ export const postCreateQuiz = async (questionNumber) => {
 
 export const putEditQuiz = async (quizId,questionNumber) => {
     try {
-        const reqUrl = `http://localhost:8000/api/v1/quiz/edit_quiz:${quizId}`;
+        const reqUrl = `${backendUrl}/quiz/edit_quiz:${quizId}`;
         const token = localStorage.getItem("token");
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
         const response = await axios.put(reqUrl,questionNumber); 

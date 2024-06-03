@@ -8,13 +8,13 @@
   height: 66vh;
   border-radius: 10px;
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   flex-direction: column;
   align-items: center;
 }
 .analyticsContainer {
-  filter: brightness(0.7); 
-  pointer-events: none; 
+  filter: brightness(0.7);
+  pointer-events: none;
 }
 .Share h2 {
   font-family: Poppins;

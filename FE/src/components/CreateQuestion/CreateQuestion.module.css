@@ -18,8 +18,8 @@
   color: #9f9f9f;
 }
 .analyticsContainer {
-  filter: brightness(0.7); 
-  pointer-events: none; 
+  filter: brightness(0.7);
+  pointer-events: none;
 }
 .QuestionOrPoll div {
   display: flex;

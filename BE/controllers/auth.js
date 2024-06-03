@@ -6,6 +6,19 @@ const registerUser = async (req, res, next) => {
     try {
         const { name, password, email, cPassword} = req.body;
 
+        if (!/^[a-zA-Z]+$/.test(name)) {
+            return res.status(400).json({
+                name: "Invalid name",
+            });
+        }
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            return res.status(400).json({
+                email: "Invalid email",
+            });
+        }
+
         if (!name || !email || !password || !cPassword) {
             return res.status(400).json({
                 errorMessage: "Bad request",
@@ -18,20 +31,22 @@ const registerUser = async (req, res, next) => {
                 .status(409)
                 .json({ errorMessage: "User already exists" });
         }
-        if (password.length<4){
-            return res.status(401).json({password : "Weak password"})
+
+        if (password.length < 4){
+            return res.status(400).json({
+                password: "Weak password",
+            });
         }
+
+        const bcrypt = require('bcrypt');
         const hashedPassword = await bcrypt.hash(password, 10);
-const hashedCPassword = await bcrypt.hash(cPassword, 10);
-
-
-
-if (hashedPassword === hashedCPassword) {
-    // console.log('Hashed passwords match.');
-} else {
-    res.json({ cPassword: "Password did not match" });
-}
-
+        const match = await bcrypt.compare(cPassword, hashedPassword);
+        if (!match) {
+            return res.status(400).json({
+                cPassword: "password doesn’t match",
+            });
+        }
+        
         const userData = new User({
             name,
             email,
@@ -43,7 +58,8 @@ if (hashedPassword === hashedCPassword) {
     } catch (error) {
         next(error);
     }
-};
+}
+
 
 const loginUser = async (req, res, next) => {
     try {

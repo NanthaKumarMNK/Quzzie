@@ -5,6 +5,9 @@ import styles from "./Home.module.css";
 
 export default function Home() {
   const [toggleRegister, setToggleRegister] = useState(true);
+  const handleToggleRegister = () => {
+    setToggleRegister(!toggleRegister);
+  };
 
   return (
     <div className={styles.HomeContainer}>
@@ -31,7 +34,7 @@ export default function Home() {
           </p>
         </div>
       </div>
-      {!toggleRegister ? <Login /> : <Signup />}
+      {!toggleRegister ? <Login /> : <Signup onSignUp={handleToggleRegister} />}
     </div>
   );
 }

@@ -6,6 +6,8 @@ import Share from "../../assets/images/Share.png";
 import Delete from "../../assets/images/Delete.png";
 import { useNavigate } from "react-router-dom";
 import { getUserQuiz } from "../../apis/quiz";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Analytics() {
   const navigate = useNavigate();
@@ -43,7 +45,7 @@ export default function Analytics() {
   const copyText = (quizId) => {
     const textToCopy = `http://localhost:5173/question/${quizId}`;
     navigator.clipboard.writeText(textToCopy);
-    alert('Link copied');
+    toast.success("Link copied");
   };
 
   return (
@@ -106,7 +108,11 @@ export default function Analytics() {
                           src={Delete}
                           alt="Delete"
                         />
-                        <img onClick={()=>copyText(quiz.id)} src={Share} alt="Share" />
+                        <img
+                          onClick={() => copyText(quiz.id)}
+                          src={Share}
+                          alt="Share"
+                        />
                       </td>
                       <td
                         onClick={() =>
@@ -126,6 +132,7 @@ export default function Analytics() {
             </table>
           </div>
         </div>
+        <ToastContainer position="top-right" />
       </div>
     </>
   );

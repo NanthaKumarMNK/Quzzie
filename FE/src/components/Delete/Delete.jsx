@@ -6,7 +6,7 @@ import { deleteQuiz } from "../../apis/quiz";
 export default function Delete() {
   const navigate = useNavigate();
   const { quizId } = useParams();
-  console.log(quizId);
+
   const deleteUserQuiz = async () => {
     const response = await deleteQuiz(quizId);
     if (response) {
@@ -19,8 +19,8 @@ export default function Delete() {
   return (
     <>
       <div className={styles.analyticsContainer}>
-  <Analytics />
-</div>
+        <Analytics />
+      </div>
       <div className={styles.Delete}>
         <p>
           Are you confirm you

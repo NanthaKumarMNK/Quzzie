@@ -1,29 +1,46 @@
-const mongoose = require('mongoose');
-const moment = require('moment');
+const mongoose = require("mongoose");
+const moment = require("moment");
 
-const quizSchema = new mongoose.Schema({
-    questionOrPoll: String,
+const quizSchema = new mongoose.Schema(
+  {
+    questionOrPoll: {
+      type: String,
+      required: true,
+    },
+
     userId: String,
-    quizName: String,
-    impressions: String,
-    timer: String,
+    quizName: {
+      type: String,
+      required: true,
+    },
+
+    impressions: {
+      type: String,
+      required: true,
+    },
+
+    timer: {
+      type: String,
+      required: true,
+    },
+
     quiz: {
-        type: mongoose.Schema.Types.Mixed,
-        default: {}
+      type: mongoose.Schema.Types.Mixed,
+      required: true,
     },
     createdOn: {
-        type: Date,
-        default: Date.now
-    }
-}, {
+      type: Date,
+      default: Date.now,
+    },
+  },
+  {
     toJSON: {
-        getters: true   // Include getters when converting document to JSON
-    }
+      getters: true,
+    },
+  }
+);
+quizSchema.path("createdOn").get(function (value) {
+  return moment(value).format("DD MMM, YYYY");
 });
 
-// Custom getter for createdOn field
-quizSchema.path('createdOn').get(function(value) {
-    return moment(value).format('DD MMM, YYYY');
-});
-
-module.exports = mongoose.model('Quiz', quizSchema);
+module.exports = mongoose.model("Quiz", quizSchema);

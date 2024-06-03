@@ -9,7 +9,7 @@ export default function Question() {
   const [question, setQuestion] = useState({});
   const [selectedOption, setSelectedOptions] = useState({});
   const [currentQuiz, setCurrentQuiz] = useState(0);
-  const [finished, setFinished] = useState();
+  const [finished, setFinished] = useState(null);
   const [timeLeft, setTimeLeft] = useState(10);
   const fetchQuiz = async () => {
     if (!quizId) {
@@ -72,14 +72,16 @@ export default function Question() {
       return;
     }
     const response = await putImpression(quizId, selectedOption);
-    if (response) {
+    if (response !== null && response !== undefined) {
       setFinished(response);
+    } else {
+      setFinished(null);
     }
   };
 
   return (
     <div className={styles.QuestionContainer}>
-      {!finished && (
+      {finished === null && (
         <div className={styles.Question}>
           <div className={styles.Timer}>
             <p className={styles.TimerQuestionNumber}>
@@ -141,7 +143,7 @@ export default function Question() {
           )}
         </div>
       )}
-      {finished && finished !== "Poll" && (
+      {finished !== null && finished !== "Poll" && (
         <div className={styles.Completed}>
           <h1>Congrats Quiz is completed</h1>
           <img src={Cup} alt="Cup" />
@@ -153,9 +155,8 @@ export default function Question() {
           </p>
         </div>
       )}
-      {finished && finished === "Poll" && (
+      {finished !== null && finished === "Poll" && (
         <div className={styles.Completed}>
-          {" "}
           <h1>Thank you for participating in the Poll</h1>
         </div>
       )}

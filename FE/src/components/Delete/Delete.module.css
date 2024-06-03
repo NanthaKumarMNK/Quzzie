@@ -13,8 +13,8 @@
   align-items: center;
 }
 .analyticsContainer {
-  filter: brightness(0.7); 
-  pointer-events: none; 
+  filter: brightness(0.7);
+  pointer-events: none;
 }
 .Delete p {
   font-family: Poppins;
