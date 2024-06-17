@@ -7,6 +7,8 @@ import { useLocation } from "react-router-dom";
 import { getLastQuizIdByUser } from "../../apis/quiz";
 
 export default function Share() {
+  // use .env file for change the URI
+  const FRONTEND_URI="https://09nantha10-gmail-com-cuvette-final-evaluation-september.vercel.app"
   const { state } = useLocation();
 
   const [stateId] = useState(state?.id);
@@ -41,7 +43,7 @@ export default function Share() {
       <ToastContainer position="top-right" toastClassName="custom-toast" />
       <div className={styles.Share}>
         <h2>Congrats your Quiz is Published!</h2>
-        <p ref={textRef}>{`http://localhost:5173/question/${state ? stateId : quizId}`}</p>
+        <p ref={textRef}>{`${FRONTEND_URI}/question/${state ? stateId : quizId}`}</p> 
         <button onClick={copyText}>Share</button>
       </div>
     </>

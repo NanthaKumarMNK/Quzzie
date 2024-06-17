@@ -12,5 +12,5 @@ export default function ProtectedRoute(props) {
         }
     }, []);
 
-    return <div>{isLoggedIn ? <Component /> : <Navigate to="/" />}</div>;
+    return <div>{isLoggedIn ? <Component /> : <Navigate to="/dashboard" />}</div>;
 }
