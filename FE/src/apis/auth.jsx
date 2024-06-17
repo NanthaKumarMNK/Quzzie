@@ -3,7 +3,7 @@ const backendUrl = "http://localhost:8000/api/v1";
 
 export const registerUser = async ({ email, password, name, cPassword }) => {
   try {
-    const reqUrl = `${backendUrl}/auth/register`;
+    const reqUrl = `http://localhost:8000/api/v1/auth/register`;
     const response = await axios.post(reqUrl, {
       email,
       password,
@@ -19,7 +19,7 @@ export const registerUser = async ({ email, password, name, cPassword }) => {
 
 export const loginUser = async ({ email, password }) => {
   try {
-    const reqUrl = `${backendUrl}/auth/login`;
+    const reqUrl = `http://localhost:8000/api/v1/auth/login`;
     const response = await axios.post(reqUrl, { email, password });
     return response.data;
   } catch (error) {

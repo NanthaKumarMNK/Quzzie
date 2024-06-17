@@ -4,7 +4,6 @@ const backendUrl = "http://localhost:8000/api/v1" ;
 export const getTrendingQuiz = async () => {
     try {
         const reqUrl = `${backendUrl}/quiz/trending_quiz`;
-    
         const response = await axios.get(reqUrl);
         return response.data.Trending;
     } catch (error) {
@@ -70,7 +69,6 @@ export const getLastQuizIdByUser = async (userId) => {
 
 export const putImpression = async (quizId,selectedOption) => {
     try {
-        
         const reqUrl = `${backendUrl}/quiz/post_impression:${quizId}`;
         const token = localStorage.getItem("token");
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
@@ -102,7 +100,6 @@ export const postCreateQuiz = async (questionNumber) => {
         const token = localStorage.getItem("token");
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
         const response = await axios.post(reqUrl,questionNumber);
-        
         return response.data;
     } catch (error) {
         console.log(error);

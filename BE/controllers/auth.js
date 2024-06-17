@@ -4,7 +4,14 @@ const jwt = require("jsonwebtoken");
 
 const registerUser = async (req, res, next) => {
     try {
-        const { name, password, email, cPassword} = req.body;
+        const { name, password, email, cPassword} = req.body; 
+        
+        
+        if (!name || !email || !password || !cPassword) {
+            return res.status(400).json({
+                errorMessage: "Bad request",
+            });
+        }
 
         if (!/^[a-zA-Z]+$/.test(name)) {
             return res.status(400).json({
@@ -16,12 +23,6 @@ const registerUser = async (req, res, next) => {
         if (!emailRegex.test(email)) {
             return res.status(400).json({
                 email: "Invalid email",
-            });
-        }
-
-        if (!name || !email || !password || !cPassword) {
-            return res.status(400).json({
-                errorMessage: "Bad request",
             });
         }
 
@@ -38,12 +39,11 @@ const registerUser = async (req, res, next) => {
             });
         }
 
-        const bcrypt = require('bcrypt');
         const hashedPassword = await bcrypt.hash(password, 10);
         const match = await bcrypt.compare(cPassword, hashedPassword);
         if (!match) {
             return res.status(400).json({
-                cPassword: "password doesn’t match",
+                cPassword: "password doesn't match",
             });
         }
         
@@ -95,8 +95,7 @@ const loginUser = async (req, res, next) => {
             process.env.SECRTE_KEY
         );
 
-     
-        res.cookie("token", token, { httpOnly: true }); 
+        res.cookie("token", token, { httpOnly: true });
         res.cookie("userId", userDetails.userId, { httpOnly: true });
 
         res.json({

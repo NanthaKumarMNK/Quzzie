@@ -1,4 +1,3 @@
-const quiz = require("../models/quiz");
 const Quiz = require("../models/quiz");
 
 const postCreateQuiz = async (req, res, next) => {
@@ -50,7 +49,6 @@ const postCreateQuiz = async (req, res, next) => {
       timer: questionNumber.timer,
       quiz: questionNumber.quiz,
     });
-    console.log(quizData);
 
     await quizData.save();
 
@@ -186,7 +184,6 @@ const deleteQuiz = async (req, res, next) => {
   try {
     let quizId = req.params.quizId;
     quizId = quizId.replace(":", "");
-    console.log(quizId);
 
     const deletedQuiz = await Quiz.findByIdAndDelete(quizId);
 

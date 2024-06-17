@@ -28,18 +28,38 @@ export default function Login() {
     }
 
     const response = await loginUser({ ...formData });
-
-    if (!response?.userId) {
-      toast.error("Invalid Username and password");
-      return;
-    }
-
-    if (response?.userId) {
-      localStorage.setItem("token", response?.token);
+    try {
+      const response = await loginUser({ ...formData });
+  
+      if (!response?.userId) {
+        toast.error("Invalid Username and password");
+        return;
+      }
+  
+      const token = localStorage.setItem("token", response?.token);
       localStorage.setItem("userId", response?.userId);
-      toast.success("User Successfully Logged In");
+      console.log(token)
+      console.log("User successfully logged in");
       navigate("/dashboard");
+  
+    } catch (error) {
+      console.error("Login error:", error);
+      toast.error("Failed to login. Please try again.");
     }
+
+    // if (!response?.userId) {
+    //   toast.error("Invalid Username and password");
+    //   return;
+    // }
+
+    // if (response?.userId) {
+
+    //   const token=localStorage.setItem("token", response?.token);
+    //   localStorage.setItem("userId", response?.userId);
+    //   console.log(token)
+    //   toast.success("User Successfylly LoggedIn");
+    //   navigate("/dashboard");
+    // }
   };
 
   return (
@@ -48,16 +68,16 @@ export default function Login() {
       <form className={styles.LoginContainer} onSubmit={handleSubmit}>
         <div className={styles.margin}>
           <div className={styles.Login}>
-            <p className={styles.LoginAttribute}>Email</p>{" "}
+            <p className={styles.LoginAttribute}>Email</p>
             <input
               name="email"
               type="email"
               value={formData.email}
               onChange={handleInputChange}
-            />{" "}
+            />
           </div>
           <div className={styles.Login}>
-            <p className={styles.LoginAttribute}>Password</p>{" "}
+            <p className={styles.LoginAttribute}>Password</p>
             <input
               name="password"
               type="password"
