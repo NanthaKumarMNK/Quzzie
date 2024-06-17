@@ -28,38 +28,19 @@ export default function Login() {
     }
 
     const response = await loginUser({ ...formData });
-    try {
-      const response = await loginUser({ ...formData });
-  
-      if (!response?.userId) {
-        toast.error("Invalid Username and password");
-        return;
-      }
-  
-      const token = localStorage.setItem("token", response?.token);
-      localStorage.setItem("userId", response?.userId);
-      console.log(token)
-      console.log("User successfully logged in");
-      navigate("/dashboard");
-  
-    } catch (error) {
-      console.error("Login error:", error);
-      toast.error("Failed to login. Please try again.");
+
+    if (!response?.userId) {
+      toast.error("Invalid Username and password");
+      return;
     }
 
-    // if (!response?.userId) {
-    //   toast.error("Invalid Username and password");
-    //   return;
-    // }
+    if (response?.userId) {
 
-    // if (response?.userId) {
-
-    //   const token=localStorage.setItem("token", response?.token);
-    //   localStorage.setItem("userId", response?.userId);
-    //   console.log(token)
-    //   toast.success("User Successfylly LoggedIn");
-    //   navigate("/dashboard");
-    // }
+      localStorage.setItem("token", response?.token);
+      localStorage.setItem("userId", response?.userId);
+      toast.success("User Successfylly LoggedIn");
+      navigate("/dashboard");
+    }
   };
 
   return (
