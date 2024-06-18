@@ -39,6 +39,7 @@
   text-align: left;
   color: #474444;
   border-radius: 10px;
+  overflow: hidden;
 }
 
 .Share button {

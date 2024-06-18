@@ -363,7 +363,7 @@ const getImpression = async (req, res, next) => {
 const getLastQuizIdByUser = async (req, res, next) => {
   try {
     let userId = req.params.userId.replace(":", "");
-    const latestQuiz = await Quiz.findOne({ userId }).sort({ createdAt: -1 });
+    const latestQuiz = await Quiz.findOne({ userId }).sort({ createdOn: -1 });
 
     if (!latestQuiz) {
       return null;

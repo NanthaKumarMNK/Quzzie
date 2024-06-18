@@ -10,7 +10,6 @@ export default function Share() {
   // use .env file for change the URI
   const FRONTEND_URI="https://09nantha10-gmail-com-cuvette-final-evaluation-september.vercel.app"
   const { state } = useLocation();
-
   const [stateId] = useState(state?.id);
   const [quizId, setQuizId] = useState();
 

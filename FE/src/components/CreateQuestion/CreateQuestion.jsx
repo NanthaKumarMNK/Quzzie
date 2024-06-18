@@ -320,7 +320,7 @@ export default function CreateQuestion() {
         }
       });
     });
-    if (state.edit) {
+    if (state?.edit) {
       const response = await putEditQuiz(stateId, questionNumber);
       if (response.message) {
         await toast.success(response.message);
