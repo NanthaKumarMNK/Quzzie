@@ -42,7 +42,7 @@ export default function Share() {
       <ToastContainer position="top-right" toastClassName="custom-toast" />
       <div className={styles.Share}>
         <h2>Congrats your Quiz is Published!</h2>
-        <p ref={textRef}>{`${FRONTEND_URI}/question/${state ? stateId : quizId}`}</p> 
+        <p ref={textRef}>{`http://localhost:5173/api/v1/question/${state ? stateId : quizId}`}</p> 
         <button onClick={copyText}>Share</button>
       </div>
     </>

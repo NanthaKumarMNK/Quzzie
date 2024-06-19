@@ -1,5 +1,5 @@
 import axios from "axios";
-const backendUrl = "http://localhost:8000/api/v1" ;
+const backendUrl = import.meta.env.VITE_BACKEND_URI;
 
 export const getTrendingQuiz = async () => {
     try {

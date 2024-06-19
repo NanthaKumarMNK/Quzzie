@@ -1,9 +1,10 @@
 import axios from "axios";
-const backendUrl = "http://localhost:8000/api/v1";
+const backendUrl = import.meta.env.VITE_BACKEND_URI;
+
 
 export const registerUser = async ({ email, password, name, cPassword }) => {
   try {
-    const reqUrl = `http://localhost:8000/api/v1/auth/register`;
+    const reqUrl = `${backendUrl}/auth/register`;
     const response = await axios.post(reqUrl, {
       email,
       password,
@@ -19,7 +20,7 @@ export const registerUser = async ({ email, password, name, cPassword }) => {
 
 export const loginUser = async ({ email, password }) => {
   try {
-    const reqUrl = `http://localhost:8000/api/v1/auth/login`;
+    const reqUrl = `${backendUrl}/auth/login`;
     const response = await axios.post(reqUrl, { email, password });
     return response.data;
   } catch (error) {
