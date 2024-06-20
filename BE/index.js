@@ -9,10 +9,7 @@ const auth = require("./routes/auth");
 const quiz = require("./routes/quiz");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
-app.use(cors({
-  origin:["09nantha10-gmail-com-cuvette-final-evaluation-september.vercel.app"],
-  methods:["POST","GET","PUT","DELETE"]
-}));
+app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 
