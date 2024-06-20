@@ -22,6 +22,10 @@ mongoose
   .then(() => console.log("Db connected"))
   .catch((error) => console.log(error));
 
+  app.get('/', (req, res) => {
+    res.send('hello world')
+  })
+
 app.use("/api/v1/auth", auth);
 app.use("/api/v1/quiz", quiz);
 
