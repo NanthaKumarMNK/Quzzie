@@ -43,7 +43,7 @@ export default function Analytics() {
   };
 
   const copyText = (quizId) => {
-    const textToCopy = `http://localhost:5173/question/${quizId}`;
+    const textToCopy = `https://09nantha10-gmail-com-cuvette-final-evaluation-september.vercel.app/question/${quizId}`;
     navigator.clipboard.writeText(textToCopy);
     toast.success("Link copied");
   };
