@@ -13,12 +13,12 @@ export default function Analytics() {
   const navigate = useNavigate();
   const [userQuiz, setUserQuiz] = useState();
   const [userId] = useState(localStorage.getItem("userId"));
-  const fetchUserQuiz = async (userId) => {
+  const fetchUserQuiz = async () => {
     const myResponse = await getUserQuiz(userId);
     setUserQuiz(myResponse);
   };
   useEffect(() => {
-    fetchUserQuiz(userId);
+    fetchUserQuiz();
   }, []);
 
   const handleEdit = (quizId) => {

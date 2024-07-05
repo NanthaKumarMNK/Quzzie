@@ -34,11 +34,10 @@ export default function Signup({ onSignUp }) {
       !formData.email ||
       !formData.cPassword
     ) {
-      alert("Fields can't be empty");
+      setWrongResponse("Fields can't be empty");
       return;
     }
     const response = await registerUser({ ...formData });
-    console.log(response);
     if (response.message) {
       toast.success(response.message);
       onSignUp();

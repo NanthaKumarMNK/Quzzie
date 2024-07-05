@@ -15,7 +15,7 @@ export default function Share() {
 
   const [userId] = useState(localStorage.getItem("userId"));
 
-  const textRef = useRef(null); // Define textRef here
+  const textRef = useRef(null); 
 
   const getLastCreatedQuiz = async () => {
     const response = await getLastQuizIdByUser(userId);
